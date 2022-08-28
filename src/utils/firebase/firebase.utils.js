@@ -5,6 +5,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider
 } from 'firebase/auth';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from 'firebase/firestore';
 
 // Apparently, Firebase API keys are OK in checked-in config files
 // https://firebase.google.com/docs/projects/api-keys
@@ -26,3 +32,11 @@ provider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+
+export const db = getFirestore();
+
+export const createUserDocument = async (user) => {
+  const userDocRef = doc(db, 'users', user.uid);
+  const userSnapshot = await getDoc(userDocRef);
+  console.log(userSnapshot.exists());
+}
